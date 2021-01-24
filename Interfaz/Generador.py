@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow, QFileDialog, QApplication, QColorDialog
+from PyQt5.QtWidgets import QMainWindow, QFileDialog, QApplication, QColorDialog, QDialog, QFontComboBox
 from Fuentes_de_texto import *
 from Informacion import *
 from interfaz import *
@@ -7,59 +7,55 @@ import pandas as pd
 import time
 import sys
 
-class Fuente_de_texto( QtWidgets.QMainWindow, Ui_Fuentes_de_texto ):
+class Fuente_de_texto( QDialog, Ui_Fuentes_de_texto ):
 
     def __init__( self, *args, **kwargs ):
         super().__init__(*args, **kwargs)
         self.setupUi(self)
         self.show()
         
-        self.pushButton_Aceptar.clicked.connect(Fuente_de_texto.Funcion_Aceptar)
-        self.pushButton_Cancelar.clicked.connect(Fuente_de_texto.Funcion_Cancelar)
-
-    def Funcion_Aceptar( self ):
-        print("Pulsado: Fuente de texto -> Aceptar")
-
-    def Funcion_Cancelar( self ):
-        print("Pulsado: Fuente de texto -> Cencelar")
+        self.pushButton_Aceptar.clicked.connect(Fuente_de_texto.Funcion_Obtener_fuentes)
         
 
-class Espaciado_de_texto( QtWidgets.QMainWindow, Ui_informacion_version ):
+    def Funcion_Obtener_fuentes( self ):
+        a = 0             
+
+class Espaciado_de_texto( QDialog, Ui_informacion_version ):
 
     def __init__( self, *args, **kwargs ):
         super().__init__(*args, **kwargs)
         self.setupUi(self)
         self.show()
 
-class Colores( QtWidgets.QMainWindow, Ui_informacion_version ):
+class Colores( QDialog, Ui_informacion_version ):
 
     def __init__( self, *args, **kwargs ):
         super().__init__(*args, **kwargs)
         self.setupUi(self)
         self.show()
 
-class Linea( QtWidgets.QMainWindow, Ui_informacion_version ):
+class Linea( QDialog, Ui_informacion_version ):
 
     def __init__( self, *args, **kwargs ):
         super().__init__(*args, **kwargs)
         self.setupUi(self)
         self.show()
 
-class Grilla( QtWidgets.QMainWindow, Ui_informacion_version ):
+class Grilla( QDialog, Ui_informacion_version ):
+
+    def __init__( self, *args, **kwargs ):
+        super().__init__(*args, **kwargs)
+        self.setupUi(self)
+        self.show()
+        
+class Ayuda( QDialog, Ui_informacion_version ):
 
     def __init__( self, *args, **kwargs ):
         super().__init__(*args, **kwargs)
         self.setupUi(self)
         self.show()
 
-class Ayuda( QtWidgets.QMainWindow, Ui_informacion_version ):
-
-    def __init__( self, *args, **kwargs ):
-        super().__init__(*args, **kwargs)
-        self.setupUi(self)
-        self.show()
-
-class Sobre_Cohemo_GMP( QtWidgets.QMainWindow, Ui_informacion_version ):
+class Sobre_Cohemo_GMP( QDialog, Ui_informacion_version ):
 
     def __init__( self, *args, **kwargs ):
         super().__init__(*args, **kwargs)
@@ -208,9 +204,11 @@ class MainWindow( QtWidgets.QMainWindow, Ui_MainWindow ):
     # Función que realiza la acción de realizar las llamadas a las demás funciones encargadas de formar el informe de salida
     def Funcion_generar_informe( self ):
 
-        self.QLineEdit_archivo_de_entrada.setText("Generando informe...") 
-        self.QLineEdit_imagen_de_portada.setText("Generando informe...") 
-        self.QLineEdit_ruta_de_salida.setText("Generando informe...")
+        if self.Archivo_de_entrada != '':
+            print("Archivo: " + self.Archivo_de_entrada)
+        else:
+            print("Archivo vacío")
+
         self.Funcion_barra_progreso()
     
     # Función que realiza la acción de pedir al usuario un archivo de entrada en formato .txt
@@ -222,9 +220,9 @@ class MainWindow( QtWidgets.QMainWindow, Ui_MainWindow ):
     # Función que realiza la acción de pedir al usuario un archivo de imagen para la portada del documento en formato .jpg / .png
     def Funcion_imagen_de_portada( self ):
 
-        self.QLineEdit_archivo_de_entrada.setText("Funcion_imagen_de_portada") 
-        self.QLineEdit_imagen_de_portada.setText("Funcion_imagen_de_portada") 
-        self.QLineEdit_ruta_de_salida.setText("Funcion_imagen_de_portada") 
+        self.Imagen_de_portada, _ = QFileDialog.getOpenFileName( self, "Abrir...", "", "Archivos de imagen (*.png *.jpg *.bmp)" )
+        self.QLineEdit_imagen_de_portada.setText( self.Imagen_de_portada ) 
+         
     
     # Función que realiza la acción de pedir al usuario un directorio de salida donde se creará el informe en PDF
     def Funcion_ruta_de_salida( self ):

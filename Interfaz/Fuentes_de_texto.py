@@ -133,8 +133,8 @@ class Ui_Fuentes_de_texto(object):
         self.pushButton_Cancelar = QtWidgets.QPushButton(Fuentes_de_texto)
         self.pushButton_Cancelar.setGeometry(QtCore.QRect(270, 220, 75, 23))
         self.pushButton_Cancelar.setObjectName("pushButton_Cancelar")
-
         self.retranslateUi(Fuentes_de_texto)
+        self.pushButton_Cancelar.clicked.connect(Fuentes_de_texto.close)
         QtCore.QMetaObject.connectSlotsByName(Fuentes_de_texto)
 
     def retranslateUi(self, Fuentes_de_texto):

@@ -28,13 +28,12 @@ class App(QWidget):
 
     @pyqtSlot()
     def on_click(self):
-        openColorDialog(self)
-
-    def openColorDialog(self):
+        
         color = QColorDialog.getColor()
 
         if color.isValid():
             print(color.name())
+        
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
